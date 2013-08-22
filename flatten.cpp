@@ -19,7 +19,7 @@ public:
         {
         	q = s.back();
         	s.pop_back();
-        	if(p) p->right = q;
+        	if(p!=NULL) p->right = q;
         	p = q;
         	while(1)
         	{
@@ -27,6 +27,7 @@ public:
 				if(q->left)
 				{
 					q = q->left;
+                    p->left = NULL;
 					p->right = q;
 					p = q;
 				}
@@ -34,5 +35,6 @@ public:
 					break;
         	}
         }
+        return;
     }
 };
