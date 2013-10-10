@@ -2,44 +2,27 @@ public class Solution {
     public double findMedianSortedArrays(int A[], int B[]) {
         // Start typing your Java solution below
         // DO NOT write main() function
-        int m = A.length;
-        int n = B.length;
-        int C[] = new int[m+n];
-        double median;
-        int i=0;
-        int j=0;
-        int k=0;
-        while(k!=m+n)
-        {
-        	if(i==m)
-        	{
-        		C[k++]=B[j++];
-        	}
-        	else if(j==n)
-        	{
-        		C[k++]=A[i++];
-        	}
-        	else
-        	{
-        		if(A[i] < B[j])
-        		{
-        			C[k++]=A[i++];
-        		}
-        		else
-        		{
-        			C[k++]=B[j++];
-        		}
-        	}
-        }
-        k = (m+n)/2;
-        if((m+n)%2==0)
-        {
-        	median = ((double)(C[k-1]+C[k]))/2;
-        }
+        int k = A.length+B.length;
+        if(k % 2 == 1)
+            return findk(A,B,A.length,B.length,0,0,k/2+1);
         else
-        {
-        	median = C[k];
-        }
-        return median;
+            return (findk(A,B,A.length,B.length,0,0,k/2+1) + findk(A,B,A.length,B.length,0,0,k/2))/2;
+    }
+
+    public double findk(int A[], int B[],int m,int n, int sa,int sb,int k)
+    {
+        if(m > n)
+            return findk(B,A,n,m,sb,sa,k);
+        if(m == 0)
+            return B[sb+k-1];
+        if(k == 1)
+            return Math.min(A[sa],B[sb]);
+        int pa = Math.min(k/2,m), pb = k-pa;
+        if(A[sa+pa-1] < B[sb+pb-1])
+            return findk(A,B,m-pa,n,sa+pa,sb,pb);
+        else if(A[sa+pa-1] > B[sb+pb-1])
+            return findk(A,B,m,n-pb,sa,sb+pb,pa);
+        else
+            return A[pa-1];
     }
 }
